@@ -63,7 +63,7 @@ class RepertoireEndpoint(
             when (result.violation) {
                 ScreeningAddingViolation.NOT_AUTHENTICATED -> UNAUTHORIZED
                 ScreeningAddingViolation.NOT_AN_OWNER -> FORBIDDEN
-                ScreeningAddingViolation.REPERTOIRE_NOT_FOUND,
+                ScreeningAddingViolation.REPERTOIRE_NOT_FOUND -> NOT_FOUND
                 ScreeningAddingViolation.SCREENINGS_CLASH,
                 ScreeningAddingViolation.INVALID_PRICE -> UNPROCESSABLE_ENTITY
                 null -> OK

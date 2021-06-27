@@ -71,8 +71,14 @@ class FuriousCinema(
         RepertoireAddingResult(enumValueOf(e.violation))
     }
 
-    suspend fun addScreening(screening: NewScreening): ScreeningAddingResult {
-        TODO()
+    suspend fun addScreening(screening: NewScreening): ScreeningAddingResult = try {
+        authentications.authenticateOwner(screening.authenticationToken)
+        val movie = movies.loadMovie(screening.movieId)
+        repertoires.addScreening(screening, movie)
+        ScreeningAddingResult()
+    } catch (e: FuriousCinemaException) {
+        logger.warn(e.message, e)
+        ScreeningAddingResult(enumValueOf(e.violation))
     }
 
     suspend fun loadRepertoire(day: DayOfWeek): RepertoireLoadingResult {

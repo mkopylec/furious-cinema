@@ -1,7 +1,12 @@
 package com.github.mkopylec.furiouscinema.infrastructure.persistence
 
+import com.github.mkopylec.furiouscinema.core.repertoire.PLN
+import com.github.mkopylec.furiouscinema.core.repertoire.Price
 import com.github.mkopylec.furiouscinema.core.repertoire.Repertoire
 import com.github.mkopylec.furiouscinema.core.repertoire.Repertoires
+import com.github.mkopylec.furiouscinema.core.repertoire.Runtime
+import com.github.mkopylec.furiouscinema.core.repertoire.Screening
+import com.github.mkopylec.furiouscinema.core.repertoire.USD
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.stereotype.Repository
@@ -16,14 +21,29 @@ class MongoDbRepertoires(
         .awaitSingleOrNull()
         ?.let {
             try {
-                Repertoire.fromPersistentState(it.day)
+                val screenings = it.screenings.map {
+                    val runtime = Runtime(it.runtime.start, it.runtime.duration)
+                    val currency = when (it.price.currency) {
+                        CurrencyDocument.USD -> USD
+                        CurrencyDocument.PLN -> PLN
+                    }
+                    val price = Price(it.price.amount, currency)
+                    Screening(runtime, it.movieId, price)
+                }
+                Repertoire.fromPersistentState(it.day, screenings)
             } catch (e: Exception) {
                 throw IllegalStateException("Error creating ${Repertoire::class} from persistent state", e)
             }
         }
 
     override suspend fun save(repertoire: Repertoire) {
-        val document = RepertoireDocument(repertoire.day)
+        val screenings = repertoire.screenings.map {
+            val runtime = RuntimeDocument(it.runtime.start, it.runtime.duration)
+            val currency = enumValueOf<CurrencyDocument>(it.price.currency.value)
+            val price = PriceDocument(it.price.amount, currency)
+            ScreeningDocument(runtime, it.movieId, price)
+        }
+        val document = RepertoireDocument(repertoire.day, screenings)
         mongoDb.save(document).awaitSingleOrNull()
     }
 }
