@@ -17,3 +17,5 @@ data class NewScreeningRequest(
 data class NewVoteRequest(
     val rating: Int
 )
+
+fun String.extractAuthenticationToken(): String = replace("bearer", "", ignoreCase = true).trim()

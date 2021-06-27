@@ -4,6 +4,11 @@ import java.math.BigDecimal
 import java.time.DayOfWeek
 import java.time.LocalTime
 
+data class NewRepertoire(
+    val authenticationToken: String,
+    val day: DayOfWeek
+)
+
 data class RepertoireAddingResult private constructor(
     override val value: Unit?,
     override val violation: RepertoireAddingViolation?
@@ -18,6 +23,14 @@ enum class RepertoireAddingViolation : Violation {
     NOT_AN_OWNER,
     REPERTOIRE_ALREADY_EXISTS
 }
+
+data class NewScreening(
+    val authenticationToken: String,
+    val day: DayOfWeek,
+    val startTime: LocalTime,
+    val movieId: String,
+    val price: NewScreeningPrice
+)
 
 data class NewScreeningPrice(
     val amount: BigDecimal,

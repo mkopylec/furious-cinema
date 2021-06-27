@@ -41,6 +41,12 @@ enum class MovieLoadingViolation : Violation {
     MOVIE_NOT_FOUND
 }
 
+data class NewVote(
+    val authenticationToken: String,
+    val movieId: String,
+    val rating: Int
+)
+
 data class VotingResult private constructor(
     override val value: Unit?,
     override val violation: VotingViolation?
