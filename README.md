@@ -35,7 +35,7 @@ The codebase is organized more or less according to [my article](https://blog.al
 The module implements [hexagonal architecture](https://alistair.cockburn.us/hexagonal-architecture/).
 Application logic resides in the [`core`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core) package which is bounded by inbound and outbound ports.
 The only inbound port is [`FuriousCinema`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/FuriousCinema.kt).
-This is the API of the application logic.
+All the application logic in encapsulated behind its API.
 Inbound adapters lie inside the [`rest`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest) package.
 REST endpoints [`MovieEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/MovieEndpoint.kt) and [`RepertoireEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/RepertoireEndpoint.kt) plays their roles.
 The outbound ports are
@@ -45,13 +45,13 @@ The outbound ports are
 [`Repertoires`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/repertoire/Repertoires.kt).
 The corresponding outbound adapters, which are concrete implementations of the outbound ports, lie inside the [`infrastructure`](/src/main/kotlin/com/github/mkopylec/furiouscinema/infrastructure) package.
 Inside the `core` package, source code is organized using [`Tactical DDD`](https://thedomaindrivendesign.io/what-is-tactical-design/) building blocks.
-The package is divided into small mini-modules, one per [`Aggregate`](https://martinfowler.com/bliki/DDD_Aggregate.html).
-Every mini-module encapsulates a part of business logic behind the API through its facade.
+The `core` package is divided into small mini-modules, one per [`Aggregate`](https://martinfowler.com/bliki/DDD_Aggregate.html).
+Every mini-module encapsulates a part of the business logic behind its facade's API.
 
 ### Tests
-There only integration (E2E) tests in the project.
-That type of tests assures the most that the project will work expected in real world, although they are relatively slow.
-For bigger project testing application logic in separation should be considered.
+There are only integration (E2E) tests in the project.
+That type of tests assures the most that the project will work as expected in the real world, although they are relatively slow.
+For bigger projects testing application logic in separation should be considered.
 
 ### Naming
 Consistent naming is one of the things that makes code more readable.
@@ -63,5 +63,5 @@ To get the raw JSON description of the REST API go to [API documentation](http:/
 
 ### TODO
 Here is the list of what should be done besides of what already exists:
-- some generic logging mechanism (based on function or [AspectJ](https://www.eclipse.org/aspectj/)) to log inbound and outbound ports operations.
+- some generic logging mechanism (based on function or [AspectJ](https://www.eclipse.org/aspectj/)) to automatically log inbound and outbound ports operations.
 - [ArchUnit](https://www.archunit.org/) tests
