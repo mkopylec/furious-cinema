@@ -10,3 +10,8 @@ furious-cinema:
           connect: 100ms
           read: 1s
           write: 200ms
+    mongodb:
+      timeout:
+        connect: 100ms
+        read: 500ms
+

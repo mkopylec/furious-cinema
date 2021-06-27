@@ -1,33 +1,41 @@
 package com.github.mkopylec.furiouscinema.core
 
+import com.github.mkopylec.furiouscinema.core.authentication.Authentications
+import com.github.mkopylec.furiouscinema.core.authentication.FuriousCinemaAuthentications
 import com.github.mkopylec.furiouscinema.core.common.FuriousCinemaException
 import com.github.mkopylec.furiouscinema.core.movie.FuriousCinemaMovies
 import com.github.mkopylec.furiouscinema.core.movie.Movies
+import com.github.mkopylec.furiouscinema.core.rating.FuriousCinemaRatings
+import com.github.mkopylec.furiouscinema.core.rating.Ratings
 import org.springframework.stereotype.Service
-import java.math.BigDecimal.ZERO
 import java.time.DayOfWeek
 
 @Service
 class FuriousCinema(
     properties: FuriousCinemaProperties,
-    movies: Movies
+    authentications: Authentications,
+    movies: Movies,
+    ratings: Ratings
 ) {
-    private val cinemaMovies = FuriousCinemaMovies(properties.movie, movies)
+    private val authentications = FuriousCinemaAuthentications(authentications)
+    private val movies = FuriousCinemaMovies(properties.movie, movies)
+    private val ratings = FuriousCinemaRatings(ratings)
 
     suspend fun loadMovies(): MoviesLoadingResult {
-        val movies = cinemaMovies.loadMovies()
+        val movies = movies.loadMovies()
         return MoviesLoadingResult(movies.map { MovieSummary(it.id, it.title) })
     }
 
     suspend fun loadMovie(movieId: String): MovieLoadingResult = try {
-        val movie = cinemaMovies.loadMovie(movieId)
+        val movie = movies.loadMovie(movieId)
+        val rating = ratings.loadRating(movie)
         MovieLoadingResult(
             MovieDetails(
                 movieId = movie.id,
                 title = movie.title,
                 description = movie.description,
                 releaseDate = movie.releaseDate,
-                moviegoersRating = ZERO, // TODO Set real rating after implementing voting
+                moviegoersRating = rating.value,
                 imdbRating = movie.imdbRating,
                 runtime = movie.runtime.value
             )
@@ -36,8 +44,13 @@ class FuriousCinema(
         MovieLoadingResult(enumValueOf<MovieLoadingViolation>(e.violation))
     }
 
-    suspend fun vote(vote: NewVote): VotingResult {
-        TODO()
+    suspend fun vote(vote: NewVote): VotingResult = try {
+        val authentication = authentications.authenticateMoviegoer(vote.authenticationToken)
+        val movie = movies.loadMovie(vote.movieId)
+        ratings.vote(vote, movie, authentication)
+        VotingResult()
+    } catch (e: FuriousCinemaException) {
+        VotingResult(enumValueOf(e.violation))
     }
 
     suspend fun addRepertoire(repertoire: NewRepertoire): RepertoireAddingResult {
