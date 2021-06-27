@@ -1,0 +1,9 @@
+furious-cinema:
+  core:
+    movie:
+      available-movie-ids: tt0232500, tt0322259
+  infrastructure:
+    http-client:
+      omdb:
+        base-url: http://localhost:10000
+        api-key: imdb-api-key

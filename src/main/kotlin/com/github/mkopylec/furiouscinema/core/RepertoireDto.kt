@@ -10,15 +10,14 @@ data class NewRepertoire(
 )
 
 data class RepertoireAddingResult private constructor(
-    override val value: Unit?,
-    override val violation: RepertoireAddingViolation?
-) : Result<RepertoireAddingViolation, Unit>(value, violation) {
-
+    val value: Unit?,
+    val violation: RepertoireAddingViolation?
+) {
     constructor() : this(null, null)
     constructor(violation: RepertoireAddingViolation) : this(null, violation)
 }
 
-enum class RepertoireAddingViolation : Violation {
+enum class RepertoireAddingViolation {
     NOT_AUTHENTICATED,
     NOT_AN_OWNER,
     REPERTOIRE_ALREADY_EXISTS
@@ -42,15 +41,14 @@ enum class PriceCurrency {
 }
 
 data class ScreeningAddingResult private constructor(
-    override val value: Unit?,
-    override val violation: ScreeningAddingViolation?
-) : Result<ScreeningAddingViolation, Unit>(value, violation) {
-
+    val value: Unit?,
+    val violation: ScreeningAddingViolation?
+) {
     constructor() : this(null, null)
     constructor(violation: ScreeningAddingViolation) : this(null, violation)
 }
 
-enum class ScreeningAddingViolation : Violation {
+enum class ScreeningAddingViolation {
     NOT_AUTHENTICATED,
     NOT_AN_OWNER,
     REPERTOIRE_NOT_FOUND,
@@ -71,14 +69,13 @@ data class ScreeningDetails(
 )
 
 data class RepertoireLoadingResult private constructor(
-    override val value: RepertoireDetails?,
-    override val violation: RepertoireLoadingViolation?
-) : Result<RepertoireLoadingViolation, RepertoireDetails>(value, violation) {
-
+    val value: RepertoireDetails?,
+    val violation: RepertoireLoadingViolation?
+) {
     constructor(value: RepertoireDetails) : this(value, null)
     constructor(violation: RepertoireLoadingViolation) : this(null, violation)
 }
 
-enum class RepertoireLoadingViolation : Violation {
+enum class RepertoireLoadingViolation {
     REPERTOIRE_NOT_FOUND
 }

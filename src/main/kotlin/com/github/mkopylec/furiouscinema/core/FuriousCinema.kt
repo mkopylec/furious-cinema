@@ -1,13 +1,20 @@
 package com.github.mkopylec.furiouscinema.core
 
+import com.github.mkopylec.furiouscinema.core.movie.FuriousCinemaMovies
+import com.github.mkopylec.furiouscinema.core.movie.Movies
 import org.springframework.stereotype.Service
 import java.time.DayOfWeek
 
 @Service
-class FuriousCinema {
+class FuriousCinema(
+    properties: FuriousCinemaProperties,
+    movies: Movies
+) {
+    private val cinemaMovies = FuriousCinemaMovies(properties.movie, movies)
 
     suspend fun loadMovies(): MoviesLoadingResult {
-        TODO()
+        val movies = cinemaMovies.loadMovies()
+        return MoviesLoadingResult(movies.map { MovieSummary(it.id, it.title) })
     }
 
     suspend fun loadMovie(movieId: String): MovieLoadingResult {

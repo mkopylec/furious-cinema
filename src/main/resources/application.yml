@@ -1,0 +1,12 @@
+furious-cinema:
+  core:
+    movie:
+      available-movie-ids: tt0232500, tt0322259, tt0463985, tt1013752, tt1596343, tt1905041, tt2820852, tt4630562
+  infrastructure:
+    http-client:
+      omdb:
+        base-url: http://www.omdbapi.com
+        timeout:
+          connect: 100ms
+          read: 1s
+          write: 200ms

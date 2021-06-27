@@ -8,14 +8,13 @@ data class MovieSummary(
 )
 
 data class MoviesLoadingResult private constructor(
-    override val value: List<MovieSummary>?,
-    override val violation: MoviesLoadingViolation?
-) : Result<MoviesLoadingViolation, List<MovieSummary>>(value, violation) {
-
+    val value: List<MovieSummary>?,
+    val violation: MoviesLoadingViolation?
+) {
     constructor(value: List<MovieSummary>) : this(value, null)
 }
 
-enum class MoviesLoadingViolation : Violation {
+enum class MoviesLoadingViolation {
 }
 
 data class MovieDetails(
@@ -29,15 +28,14 @@ data class MovieDetails(
 )
 
 data class MovieLoadingResult private constructor(
-    override val value: MovieDetails?,
-    override val violation: MovieLoadingViolation?
-) : Result<MovieLoadingViolation, MovieDetails>(value, violation) {
-
+    val value: MovieDetails?,
+    val violation: MovieLoadingViolation?
+) {
     constructor(value: MovieDetails) : this(value, null)
     constructor(violation: MovieLoadingViolation) : this(null, violation)
 }
 
-enum class MovieLoadingViolation : Violation {
+enum class MovieLoadingViolation {
     MOVIE_NOT_FOUND
 }
 
@@ -48,15 +46,14 @@ data class NewVote(
 )
 
 data class VotingResult private constructor(
-    override val value: Unit?,
-    override val violation: VotingViolation?
-) : Result<VotingViolation, Unit>(value, violation) {
-
+    val value: Unit?,
+    val violation: VotingViolation?
+) {
     constructor() : this(null, null)
     constructor(violation: VotingViolation) : this(null, violation)
 }
 
-enum class VotingViolation : Violation {
+enum class VotingViolation {
     NOT_AUTHENTICATED,
     NOT_A_MOVIEGOER,
     MOVIE_NOT_FOUND,

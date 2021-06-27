@@ -12,7 +12,7 @@ Before running, make sure:
 To run the application execute:
 
 ```shell
-./gradlew bootRun --args='--furious-cinema.infrastructure.http-client.imdb.api-key=<your imdb api key>'
+./gradlew bootRun --args='--furious-cinema.infrastructure.http-client.omdb.api-key=<your omdb api key>'
 ```
 
 To run tests execute:
