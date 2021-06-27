@@ -81,7 +81,17 @@ class FuriousCinema(
         ScreeningAddingResult(enumValueOf(e.violation))
     }
 
-    suspend fun loadRepertoire(day: DayOfWeek): RepertoireLoadingResult {
-        TODO()
+    suspend fun loadRepertoire(day: DayOfWeek): RepertoireLoadingResult = try {
+        val repertoire = repertoires.loadRepertoire(day)
+        val movieIds = repertoire.screenings.map { it.movieId }
+        val movies = movies.loadMovies(movieIds)
+        val screenings = repertoire.screenings.map { screening ->
+            val title = movies.first { it.id == screening.movieId }.title
+            ScreeningDetails(screening.runtime.start, screening.movieId, title, screening.price.toString())
+        }
+        RepertoireLoadingResult(RepertoireDetails(day, screenings))
+    } catch (e: FuriousCinemaException) {
+        logger.warn(e.message, e)
+        RepertoireLoadingResult(enumValueOf<RepertoireLoadingViolation>(e.violation))
     }
 }

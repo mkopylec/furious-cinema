@@ -3,6 +3,7 @@ package com.github.mkopylec.furiouscinema.core.repertoire
 import com.github.mkopylec.furiouscinema.core.NewRepertoire
 import com.github.mkopylec.furiouscinema.core.NewScreening
 import com.github.mkopylec.furiouscinema.core.movie.Movie
+import java.time.DayOfWeek
 
 class FuriousCinemaRepertoires(
     private val repertoires: Repertoires
@@ -21,4 +22,6 @@ class FuriousCinemaRepertoires(
         repertoire.add(screening)
         repertoires.save(repertoire)
     }
+
+    suspend fun loadRepertoire(day: DayOfWeek): Repertoire = repertoires.forDay(day) ?: throw RepertoireNotFound
 }
