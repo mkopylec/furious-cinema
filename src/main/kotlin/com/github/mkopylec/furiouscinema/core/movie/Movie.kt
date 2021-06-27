@@ -1,7 +1,6 @@
 package com.github.mkopylec.furiouscinema.core.movie
 
 import java.math.BigDecimal
-import java.time.Duration
 
 class Movie private constructor(
     val id: String,
@@ -9,7 +8,7 @@ class Movie private constructor(
     val description: String,
     val releaseDate: String,
     val imdbRating: BigDecimal,
-    val runtime: Duration
+    val runtime: Runtime
 ) {
     companion object {
         fun fromPersistentState(
@@ -18,7 +17,7 @@ class Movie private constructor(
             description: String,
             releaseDate: String,
             imdbRating: BigDecimal,
-            runtime: Duration
+            runtime: Runtime
         ) = Movie(id, title, description, releaseDate, imdbRating, runtime)
     }
 }

@@ -4,7 +4,10 @@ class FuriousCinemaMovies(
     private val properties: MovieProperties,
     private val movies: Movies
 ) {
-    suspend fun loadMovies(): List<Movie> {
-        return movies.ofIds(properties.availableMovieIds)
+    suspend fun loadMovies(): List<Movie> = movies.ofIds(properties.availableMovieIds)
+
+    suspend fun loadMovie(id: String): Movie {
+        if (id !in properties.availableMovieIds) throw MovieNotFound
+        return movies.ofId(id)
     }
 }

@@ -29,7 +29,7 @@ class MovieLoadingSpec extends BasicSpec {
                     description == loadingMovieResponse.Plot
                     releaseDate == loadingMovieResponse.Released
                     moviegoersRating == ZERO
-                    imdbRating == loadingMovieResponse.imdbRating
+                    imdbRating == new BigDecimal(loadingMovieResponse.imdbRating)
                     runtime == loadingMovieResponse.Runtime
                 }
                 violation == null
