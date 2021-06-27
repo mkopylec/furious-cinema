@@ -43,7 +43,7 @@ class RepertoireEndpoint(
         val result = cinema.addRepertoire(repertoire)
         return status(
             when (result.violation) {
-                RepertoireAddingViolation.NOT_AUTHENTICATED -> NOT_FOUND
+                RepertoireAddingViolation.NOT_AUTHENTICATED -> UNAUTHORIZED
                 RepertoireAddingViolation.NOT_AN_OWNER -> FORBIDDEN
                 RepertoireAddingViolation.REPERTOIRE_ALREADY_EXISTS -> UNPROCESSABLE_ENTITY
                 null -> OK

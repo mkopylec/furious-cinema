@@ -16,7 +16,7 @@ class MongoDbRatings(
         .awaitSingleOrNull()
         ?.let {
             try {
-                Rating.fromPersistenceState(it.movieId, it.votes.map { Vote(it.userId, it.rating) })
+                Rating.fromPersistentState(it.movieId, it.votes.map { Vote(it.userId, it.rating) })
             } catch (e: Exception) {
                 throw IllegalStateException("Error creating ${Rating::class} from persistent state", e)
             }

@@ -30,6 +30,6 @@ class Rating private constructor(
         else votes.sumOf { it.rating }.toBigDecimal().setScale(1, HALF_UP) / votes.size.toBigDecimal().setScale(1, HALF_UP)
 
     companion object {
-        fun fromPersistenceState(movieId: String, votes: List<Vote>) = Rating(movieId, votes)
+        fun fromPersistentState(movieId: String, votes: List<Vote>) = Rating(movieId, votes)
     }
 }
