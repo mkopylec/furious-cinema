@@ -45,7 +45,7 @@ The outbound ports are
 [`Repertoires`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/repertoire/Repertoires.kt).
 The corresponding outbound adapters, which are concrete implementations of the outbound ports, lie inside the [`infrastructure`](/src/main/kotlin/com/github/mkopylec/furiouscinema/infrastructure) package.
 Inside the `core` package, source code is organized using [`Tactical DDD`](https://thedomaindrivendesign.io/what-is-tactical-design/) building blocks.
-The `core` package is divided into small mini-modules, one per [`Aggregate`](https://martinfowler.com/bliki/DDD_Aggregate.html).
+The `core` package is divided into small mini-modules, one per [aggregate](https://martinfowler.com/bliki/DDD_Aggregate.html).
 Every mini-module encapsulates a part of the business logic behind its facade's API.
 
 ### Tests
