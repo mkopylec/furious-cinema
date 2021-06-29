@@ -37,7 +37,7 @@ Application logic resides in the [`core`](/src/main/kotlin/com/github/mkopylec/f
 The only inbound port is [`FuriousCinema`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/FuriousCinema.kt).
 All the application logic in encapsulated behind its API.
 Inbound adapters lie inside the [`rest`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest) package.
-REST endpoints [`MovieEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/MovieEndpoint.kt) and [`RepertoireEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/RepertoireEndpoint.kt) plays their roles.
+REST endpoints [`MovieEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/MovieEndpoint.kt) and [`RepertoireEndpoint`](/src/main/kotlin/com/github/mkopylec/furiouscinema/rest/RepertoireEndpoint.kt) play their roles.
 The outbound ports are
 [`Authentications`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/authentication/Authentications.kt), 
 [`Movies`](/src/main/kotlin/com/github/mkopylec/furiouscinema/core/movie/Movies.kt),
