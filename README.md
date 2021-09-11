@@ -65,3 +65,56 @@ To get the raw JSON description of the REST API go to [API documentation](http:/
 Here is the list of what should be done besides of what already exists:
 - some generic logging mechanism (based on function or [AspectJ](https://www.eclipse.org/aspectj/)) to automatically log inbound and outbound ports operations.
 - [ArchUnit](https://www.archunit.org/) tests
+
+### Use cases invariants
+#### Load movies
+Loads all available movies.
+Invariants:
+ - movie must have ID
+ - movie must have title
+
+#### Load a movie
+Loads a single movie.
+Invariants:
+- movie must exist
+- movie must have ID
+- movie must have title
+- movie must have description
+- movie must have release date
+- movie must have moviegoers rating
+- movie must have imdb rating
+- movie must have runtime
+
+#### Vote for a movie
+Recalculates the overall moviegoers rating of the movie because of the new user vote.
+Invariants:
+ - user must be a registered moviegoer
+ - movie must exist
+ - user mustn't vote multiple times for the same movie
+ - vote has rating that can be a number 1...5
+ - overall movie rating is an average of all user votes
+
+#### Add a repertoire
+Cinema owner adds an empty repertoire for a single day.
+Invariants:
+ - user must be a cinema owner
+ - only one repertoire per day can be added
+
+#### Add a repertoire screening
+Cinema owner adds a single movie screening to a daily repertoire by specifying a start time and price.
+Invariants:
+ - user must be a cinema owner
+ - movie must exist
+ - repertoire for a requested day must exist
+ - repertoire must have a free time slot for the whole screening runtime
+ - no more than one screening can be showed at the time
+ - whole screening must run on the same day
+ - price can not be 0 or lower
+
+#### Load a repertoire
+Loads all daily repertoire screenings.
+Invariants:
+ - repertoire must exist
+ - screening must have start time
+ - screening must have movie title
+ - screening must have price
